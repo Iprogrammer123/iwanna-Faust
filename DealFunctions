@@ -1,5 +1,5 @@
 #include "motion_control.h"
-//z
+
 void DealIdle()
 {
 	static int count = 0;
@@ -134,4 +134,3 @@ void DealJump()
 		return;
 	}
 }
-//zz
