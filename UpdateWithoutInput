@@ -18,3 +18,5 @@ void UpdateWithoutInput(void)
 	return;
 }
 
+void CheckTheState()
+
