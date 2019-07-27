@@ -18,6 +18,6 @@ void UpdateWithoutInput(void)
 	return;
 }
 
-void CheckTheState()
+void CheckTheState(int x,int y)
 {
 }
