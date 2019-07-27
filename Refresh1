@@ -1,0 +1,64 @@
+#include "motion_control.h"
+
+void Refresh(void)
+{
+	putimage(0, 0, &background_img);
+
+	if (isJump)
+	{
+		switch (guy_direction)
+		{
+		case LEFT:
+			{
+				putimage(guy_x, guy_y, GUY_SIZE, GUY_SIZE, &jump_left_bk_img, jump_loop*GUY_SIZE, 0, NOTSRCERASE);
+				putimage(guy_x, guy_y, GUY_SIZE, GUY_SIZE, &jump_left_img, jump_loop*GUY_SIZE, 0, SRCINVERT);
+				break;
+			}
+		case RIGHT:
+			{
+				putimage(guy_x, guy_y, GUY_SIZE, GUY_SIZE, &jump_right_bk_img, jump_loop*GUY_SIZE, 0, NOTSRCERASE);
+				putimage(guy_x, guy_y, GUY_SIZE, GUY_SIZE, &jump_right_img, jump_loop*GUY_SIZE, 0, SRCINVERT);
+				break;
+			}
+		}
+	}
+	else if (isRun)
+	{
+		switch (guy_direction)
+		{
+		case LEFT:
+			{
+				putimage(guy_x, guy_y, GUY_SIZE, GUY_SIZE, &run_left_bk_img, run_loop*GUY_SIZE, 0, NOTSRCERASE);
+				putimage(guy_x, guy_y, GUY_SIZE, GUY_SIZE, &run_left_img, run_loop*GUY_SIZE, 0, SRCINVERT);
+				break;
+			}
+		case RIGHT:
+			{
+				putimage(guy_x, guy_y, GUY_SIZE, GUY_SIZE, &run_right_bk_img, run_loop*GUY_SIZE, 0, NOTSRCERASE);
+				putimage(guy_x, guy_y, GUY_SIZE, GUY_SIZE, &run_right_img, run_loop*GUY_SIZE, 0, SRCINVERT);
+				break;
+			}
+		}
+	}
+	else
+	{
+		switch (guy_direction)
+		{
+		case LEFT:
+			{
+				putimage(guy_x, guy_y, GUY_SIZE, GUY_SIZE, &idle_left_bk_img, idle_loop*GUY_SIZE, 0, NOTSRCERASE);
+				putimage(guy_x, guy_y, GUY_SIZE, GUY_SIZE, &idle_left_img, idle_loop*GUY_SIZE, 0, SRCINVERT);
+				break;
+			}
+		case RIGHT:
+			{
+				putimage(guy_x, guy_y, GUY_SIZE, GUY_SIZE, &idle_right_bk_img, idle_loop*GUY_SIZE, 0, NOTSRCERASE);
+				putimage(guy_x, guy_y, GUY_SIZE, GUY_SIZE, &idle_right_img, idle_loop*GUY_SIZE, 0, SRCINVERT);
+				break;
+			}
+		}
+	}
+	FlushBatchDraw();
+
+	return;
+}
