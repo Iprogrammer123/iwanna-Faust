@@ -19,4 +19,5 @@ void UpdateWithoutInput(void)
 }
 
 void CheckTheState()
-
+{
+}
