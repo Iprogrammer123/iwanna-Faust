@@ -4,19 +4,21 @@
 #include <graphics.h>
 #include <conio.h>
 
-#define UNIT 25		//25 pixels for each unit
-#define WIDTH 36		//36 units wide
-#define HEIGHT 24		//24 units high
+#define UNIT 30		//30 pixels for each unit
+#define WIDTH 30		//30 units wide
+#define HEIGHT 20		//20 units high
 #define GUY_SIZE 20		//20 times 20 pixels for the guy
 
 #define KEY_LEFT 'a'
 #define KEY_RIGHT 'd'
 #define KEY_JUMP 'j'
 
-#define KEY_DOWN(vk_code) ((GetKeyState(vk_code) & 0x8000) ? 1 : 0)
-#define KEY_UP(vk_code) ((GetKeyState(vk_code) & 0x8000) ? 0 : 1)
+#define KEY_LEFT_DOWN ((GetKeyState(0x41) & 0x8000) ? 1 : 0)
+#define KEY_RIGHT_DOWN ((GetKeyState(0x44) & 0x8000) ? 1 : 0)
+#define KEY_LEFT_UP ((GetKeyState(0x41) & 0x8000) ? 0 : 1)
+#define KEY_RIGHT_UP ((GetKeyState(0x44) & 0x8000) ? 0 : 1)
 
-#define SPEED 4		//run speed
+#define SPEED 5		//run speed
 
 void Initialize(void);
 void Refresh(void);
@@ -29,12 +31,17 @@ void DealJump(void);
 typedef enum
 {
 	LEFT = 1, RIGHT
-} DIRECTION;
+} direction_type;
+
+typedef enum
+{
+	BLANK = 0, WALL, TL, TR, TU, TD
+} map_type;
 
 extern bool isRun;
 extern bool isJump;
 extern bool isDoubleJump;
-extern DIRECTION guy_direction;
+extern direction_type guy_direction;
 extern int guy_x;
 extern int guy_y;
 
@@ -58,5 +65,17 @@ extern IMAGE jump_left_img;
 extern IMAGE jump_left_bk_img;
 extern IMAGE jump_right_img;
 extern IMAGE jump_right_bk_img;
+
+extern IMAGE wall_img;
+extern IMAGE tl_img;
+extern IMAGE tl_bk_img;
+extern IMAGE tr_img;
+extern IMAGE tr_bk_img;
+extern IMAGE tu_img;
+extern IMAGE tu_bk_img;
+extern IMAGE td_img;
+extern IMAGE td_bk_img;
+
+extern map_type map_array[WIDTH][HEIGHT];
 
 #endif
