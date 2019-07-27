@@ -1,0 +1,16 @@
+#include "motion_control.h"
+
+int main(void)
+{
+	Initialize();
+	while (1)
+	{
+		check();
+		Refresh();
+		UpdateWithoutInput();
+		UpdateWithInput();
+		Sleep(30);
+	}
+
+	return 0;
+}
