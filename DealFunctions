@@ -47,12 +47,12 @@ void DealRun()
 	{
 	case LEFT:
 		{
-			if (KEY_UP(0x61)) isRun = FALSE;
+			if (KEY_UP(0x41)) isRun = FALSE;
 			break;
 		}
 	case RIGHT:
 		{
-			if (KEY_UP(0x64)) isRun = FALSE;
+			if (KEY_UP(0x44)) isRun = FALSE;
 			break;
 		}
 	}
