@@ -19,11 +19,12 @@ void UpdateWithoutInput(void)
 	{
 		ableJump = JUMP_COUNT;
 	}
+	
 	else
 	{
 		DealFreeFall();
 	}
-
+        isDie=CheckTheLifeState(guy_x,guy_y);
 	return;
 }
 
