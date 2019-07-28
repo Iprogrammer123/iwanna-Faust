@@ -34,7 +34,8 @@ void DealFreeFall(void);
 bool CheckWallUnder(void);
 bool CheckWallSide(void);
 bool CheckWallOver(void);
-
+bool CheckTheLifeState(int x,int y)
+	
 typedef enum
 {
 	LEFT = 1, RIGHT
