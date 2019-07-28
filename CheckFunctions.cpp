@@ -115,34 +115,65 @@ bool CheckWallOver(void)
 bool CheckTheLifeState(int x,int y)
 {
         bool state=FALSE;
-	
-	state=CheckTheTriangle(x,y,trx1,try1,shape);
+	int* Position=UnitChange(x,y);
+	enum map_type shape[4]={map_array[Position[0]][Position[1]],
+				map_array[Position[0]+1][Position[1]],
+				map_array[Position[0]][Position[1]+1],
+				map_array[Position[0]+1][Position[1]+1]};
+	int i;
+	for(i=0;i<4;i++)
+	{
+		switch(shape[i])
+		{
+			case BLANK:break;
+			case WALL:break;
+			case GOAL:break;
+			case SAVE:break;
+			default:state=CheckTheTriangle(x,y,Position,shape[i],i);
+		}
+		if(state==TRUE)
+			break;
+	}
 	return state;
 }
 
-bool CheckOnePointTheTriangle(int x,int y,int trx1,int try1,enum map_type shape)
+bool CheckOnePointTheTriangle(int x,int y,int* Position,enum map_type shape,int n)
 {
 	bool tristate=FALSE;
-	int nx=x-trx1,ny=y-try1;
+	int trx,try;
+	
+	switch(n)
+	{
+		case 0:trx=Position[0]*UNIT;try=Position[1]*UNIT;break;
+		case 1:trx=(Position[0]+1)*UNIT;try=Position[1]*UNIT;break;
+		case 2:trx=Position[0]*UNIT;try=(Position[1]+1)*UNIT;break;
+		case 3:trx=(Position[0]+1)*UNIT;try=(Position[1]+1)*UNIT;break;
+		default:
+	}
+	int nx=x-trx,ny=y-try;
 	switch(shape)
 	{
 	case TL:
 		if(nx<=UNIT&&((2*ny+nx)>=UNIT)&&((2*ny-nx)<=UNIT))
 			tristate=TRUE;
+			break;
 	case TR:
 		if(nx>=0&&((2*ny+nx)<=2*UNIT)&&((2*ny-nx)>=0))
 			tristate=TRUE;
-	case TU:
+			break;
+	case TD:
 		if(ny>=0&&((ny+2*nx)<=2*UNIT)&&((ny-2*nx)<=0))
 			tristate=TRUE;
-	case TD:
+			break;
+	case TU:
 		if(ny<=UNIT&&((ny+2*nx)>=UNIT)&&((ny-2*nx)>=(-UNIT)))
 			tristate=TRUE;
+			break;
 	default:
 	}
 	return tristate;
 }
-bool CheckTheTriangle(int x,int y,int trx1,int trx2,enum map_type shape)
+bool CheckTheTriangle(int x,int y,int* Position,enum map_type shape,int n)
 {
 	bool state=FALSE;
 	int ALU[2]={x,y+guy_size};
@@ -156,9 +187,17 @@ bool CheckTheTriangle(int x,int y,int trx1,int trx2,enum map_type shape)
 	int i;
 	for(i=0;i<4;i++)
 	{
-		state=CheckOnePointTheTriangle(x,y,AngleDirection[i][0],ALU[i][1],shape);
+		state=CheckOnePointTheTriangle(AngleDirection[n][0],AngleDirection[n][1],y,Position,shape,n);
 		if(state==TRUE)
 			break;
 	}
 	return state;
+}
+int* UnitChange(int* x,int* y)
+{
+	int UPosition[2];
+	int mx=x/UNIT,my=y/UNIT;
+	UPosition[0]=mx;
+	UPosition[1]=my;
+	return UPosition;
 }
