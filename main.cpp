@@ -3,7 +3,7 @@
 int main(void)
 {
 	Initialize();
-	while (1)
+	while (isDie==FALSE)
 	{
 		Refresh();
 		UpdateWithoutInput();
