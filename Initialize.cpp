@@ -37,6 +37,8 @@ IMAGE tu_img;
 IMAGE tu_bk_img;
 IMAGE td_img;
 IMAGE td_bk_img;
+IMAGE goal_img;
+IMAGE goal_bk_img;
 
 static map_type medium[HEIGHT][WIDTH] =
 {
