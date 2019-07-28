@@ -15,6 +15,15 @@ void UpdateWithoutInput(void)
 		DealIdle();
 	}
 
+	if (CheckWallUnder())
+	{
+		ableJump = JUMP_COUNT;
+	}
+	else
+	{
+		DealFreeFall();
+	}
+
 	return;
 }
 

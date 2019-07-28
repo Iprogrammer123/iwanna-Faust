@@ -14,16 +14,11 @@ void UpdateWithInput(void)
 	}
 	if (_kbhit())
 	{
-		if (_getch() == KEY_JUMP)
+		if (_getch() == KEY_JUMP && ableJump > 0)
 		{
-			if (isJump == TRUE)
-			{
-				isDoubleJump = TRUE;
-			}
-			else
-			{
-				isJump = TRUE;
-			}
+			isJump = TRUE;
+			ableJump--;
+			rejump_flag = TRUE;
 		}
 	}
 	

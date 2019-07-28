@@ -9,7 +9,6 @@ void Refresh(void)
 	DrawBackground();
 	DrawMap();
 	DrawGuy();
-	
 	FlushBatchDraw();
 
 	return;

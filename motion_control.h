@@ -19,6 +19,9 @@
 #define KEY_RIGHT_UP ((GetKeyState(0x44) & 0x8000) ? 0 : 1)
 
 #define SPEED 5		//run speed
+#define JUMP_COUNT 2
+#define JUMP_HEIGHT 10
+#define GRAVITY 1
 
 void Initialize(void);
 void Refresh(void);
@@ -27,6 +30,10 @@ void UpdateWithoutInput(void);
 void DealIdle(void);
 void DealRun(void);
 void DealJump(void);
+void DealFreeFall(void);
+bool CheckWallUnder(void);
+bool CheckWallSide(void);
+bool CheckWallOver(void);
 
 typedef enum
 {
@@ -35,12 +42,15 @@ typedef enum
 
 typedef enum
 {
-	BLANK = 0, WALL, TL, TR, TU, TD, GOAL
+	BLANK = 0, WALL, TL, TR, TU, TD, GOAL, SAVE
 } map_type;
 
+extern bool isWin;
+extern bool isDie;
 extern bool isRun;
 extern bool isJump;
-extern bool isDoubleJump;
+extern bool rejump_flag;
+extern int ableJump;
 extern direction_type guy_direction;
 extern int guy_x;
 extern int guy_y;

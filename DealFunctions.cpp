@@ -1,5 +1,7 @@
 #include "motion_control.h"
 
+static int free_fall_delta;
+
 void DealIdle()
 {
 	static int count = 0;
@@ -23,15 +25,29 @@ void DealRun()
 	{
 	case LEFT:
 		{
-			guy_x -= SPEED;
-			guy_y = guy_y;
-			break;
+			if (CheckWallSide())		//hit side walls, no position change occurs
+			{
+				break;
+			}
+			else
+			{
+				guy_x -= SPEED;
+				guy_y = guy_y;
+				break;
+			}
 		}
 	case RIGHT:
 		{
-			guy_x += SPEED;
-			guy_y = guy_y;
-			break;
+			if (CheckWallSide())		//hit side walls, no position change occurs
+			{
+				break;
+			}
+			else
+			{
+				guy_x += SPEED;
+				guy_y = guy_y;
+				break;
+			}
 		}
 	}
 
@@ -63,74 +79,60 @@ void DealRun()
 void DealJump()
 {
 	static int count = 0;
-	static int time = 0;
-	static int y;
+	static int delta = JUMP_HEIGHT;
 
-	static int dcount = 0;
-	static int dtime = 0;
-	static int dy;
-
-	if (isDoubleJump)
+	if (rejump_flag)
 	{
-		if (dtime == 0)
-		{
-			dy = guy_y;
-		}
-		else
-		{
-			guy_y = dy - (20 * dtime - 1 * dtime * dtime);
-		}
-	
-		if (guy_y >= y && dtime > 0)
-		{
-			guy_y = y;
-			isDoubleJump = FALSE;
-			dtime = 0;
-			isJump = FALSE;
-			time = 0;
-		}
-		else
-		{
-			dtime++;
-			dcount++;
-			if (dcount == 3)
-			{
-				jump_loop++;
-				dcount = 0;
-			}
-			jump_loop = jump_loop % 10;
-		}
-		
-		return;
+		delta = JUMP_HEIGHT;
+		rejump_flag = FALSE;
+	}
+
+	if (CheckWallOver())		//There is a wall over the head. End rising in advance
+	{
+		delta = JUMP_HEIGHT;
+		isJump = FALSE;
 	}
 	else
 	{
-		if (time == 0)
-		{
-			y = guy_y;
-		}
-		else
-		{
-			guy_y = y - (20 * time - 1 * time * time);
-		}
+		guy_y -= delta;
+		delta -= GRAVITY;
+		count++;
+	}
 	
-		if (guy_y >= y && time > 0)
-		{
-			isJump = FALSE;
-			time = 0;
-		}
-		else
-		{
-			time++;
-			count++;
-			if (count == 3)
-			{
-				jump_loop++;
-				count = 0;
-			}
-			jump_loop = jump_loop % 10;
-		}
-		
+	
+	if (count == 3)
+	{
+		jump_loop++;
+		count = 0;
+	}
+	jump_loop = jump_loop % 10;
+
+	if (delta == 0)
+	{
+		delta = JUMP_HEIGHT;
+		isJump = FALSE;
+		free_fall_delta = 0;
+	
 		return;
 	}
+}
+
+void DealFreeFall(void)
+{
+	if (isJump)
+	{
+		guy_y = guy_y;
+	}
+	else
+	{
+		guy_y += free_fall_delta;
+		free_fall_delta += 1;
+	}
+	if (CheckWallUnder())
+	{
+		guy_y = (guy_y + GUY_SIZE) / UNIT * UNIT - GUY_SIZE;
+		free_fall_delta = 0;
+	}
+
+	return;
 }

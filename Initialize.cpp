@@ -1,8 +1,11 @@
 #include "motion_control.h"
 
+bool isWin;
+bool isDie;
 bool isRun;
 bool isJump;
-bool isDoubleJump;
+bool rejump_flag;
+int ableJump;
 direction_type guy_direction;
 int guy_x;
 int guy_y;
@@ -81,12 +84,15 @@ void Initialize(void)
 
 	initgraph(WIDTH*UNIT, HEIGHT*UNIT);
 
+	isWin = FALSE;
+	isDie = FALSE;
 	isRun = FALSE;
 	isJump = FALSE;
-	isDoubleJump = FALSE;
+	rejump_flag = FALSE;
+	ableJump = JUMP_COUNT;
 	guy_direction = RIGHT;
-	guy_x = 15*UNIT;
-	guy_y = 15*UNIT;
+	guy_x = 1*UNIT;
+	guy_y = 17*UNIT;
 
 	idle_loop = 0;
 	run_loop = 0;
