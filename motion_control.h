@@ -35,7 +35,7 @@ typedef enum
 
 typedef enum
 {
-	BLANK = 0, WALL, TL, TR, TU, TD
+	BLANK = 0, WALL, TL, TR, TU, TD, GOAL
 } map_type;
 
 extern bool isRun;
@@ -75,6 +75,8 @@ extern IMAGE tu_img;
 extern IMAGE tu_bk_img;
 extern IMAGE td_img;
 extern IMAGE td_bk_img;
+extern IMAGE goal_img;
+extern IMAGE goal_bk_img;
 
 extern map_type map_array[WIDTH][HEIGHT];
 

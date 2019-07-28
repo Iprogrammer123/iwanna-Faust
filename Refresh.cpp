@@ -65,6 +65,13 @@ static void DrawMap(void)
 					putimage(i*UNIT, j*UNIT, UNIT, UNIT, &td_img, 0, 0, SRCINVERT);
 					break;
 				}
+			case GOAL:
+				{
+					putimage(i*UNIT, j*UNIT, UNIT, UNIT, &goal_bk_img, 0, 0, NOTSRCERASE);
+					putimage(i*UNIT, j*UNIT, UNIT, UNIT, &goal_img, 0, 0, SRCINVERT);
+					break;
+				}
+
 			}
 		}
 	}

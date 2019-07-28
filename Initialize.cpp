@@ -74,6 +74,8 @@ void Initialize(void)
 	loadimage(&tu_bk_img, _T("image\\tu_bk.jpg"));
 	loadimage(&td_img, _T("image\\td.jpg"));
 	loadimage(&td_bk_img, _T("image\\td_bk.jpg"));
+	loadimage(&goal_img, _T("image\\goal.jpg"));
+	loadimage(&goal_bk_img, _T("image\\goal_bk.jpg"));
 
 	initgraph(WIDTH*UNIT, HEIGHT*UNIT);
 
