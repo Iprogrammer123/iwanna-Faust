@@ -1,7 +1,10 @@
 #include "motion_control.h"
 
-bool isWin;
-bool isDie;
+static void LoadImage(void);
+
+guy_state_type guy_state;
+game_state_type game_state;
+
 bool isRun;
 bool isJump;
 bool rejump_flag;
@@ -53,6 +56,22 @@ void Initialize(void)
 {
 	int i = 0, j = 0;
 
+	LoadImage();
+	initgraph(WIDTH*UNIT, HEIGHT*UNIT);
+	for (i = 0; i < WIDTH; i++)
+	{
+		for (j = 0; j < HEIGHT; j++)
+		{
+			map_array[i][j] = medium[j][i];
+		}
+	}
+	BeginBatchDraw();
+
+	return;
+}
+
+static void LoadImage(void)
+{
 	loadimage(&background_img, _T("image\\background.jpg"));
 
 	loadimage(&idle_left_img, _T("image\\idle_left.jpg"));
@@ -81,32 +100,6 @@ void Initialize(void)
 	loadimage(&td_bk_img, _T("image\\td_bk.jpg"));
 	loadimage(&goal_img, _T("image\\goal.jpg"));
 	loadimage(&goal_bk_img, _T("image\\goal_bk.jpg"));
-
-	initgraph(WIDTH*UNIT, HEIGHT*UNIT);
-
-	isWin = FALSE;
-	isDie = FALSE;
-	isRun = FALSE;
-	isJump = FALSE;
-	rejump_flag = FALSE;
-	ableJump = JUMP_COUNT;
-	guy_direction = RIGHT;
-	guy_x = 1*UNIT;
-	guy_y = 17*UNIT;
-
-	idle_loop = 0;
-	run_loop = 0;
-	jump_loop = 0;
-
-	for (i = 0; i < WIDTH; i++)
-	{
-		for (j = 0; j < HEIGHT; j++)
-		{
-			map_array[i][j] = medium[j][i];
-		}
-	}
-
-	BeginBatchDraw();
 
 	return;
 }

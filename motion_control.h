@@ -24,6 +24,7 @@
 #define GRAVITY 1
 
 void Initialize(void);
+void ResetGame(void);
 void Refresh(void);
 void UpdateWithInput(void);
 void UpdateWithoutInput(void);
@@ -37,7 +38,7 @@ bool CheckWallOver(void);
 
 typedef enum
 {
-	LEFT = 1, RIGHT
+	LEFT = 0, RIGHT
 } direction_type;
 
 typedef enum
@@ -45,8 +46,19 @@ typedef enum
 	BLANK = 0, WALL, TL, TR, TU, TD, GOAL, SAVE
 } map_type;
 
-extern bool isWin;
-extern bool isDie;
+typedef enum
+{
+	WIN = 0, DIE, LIVE
+} guy_state_type;
+
+typedef enum
+{
+	START = 0, PLAY, END
+} game_state_type;
+
+extern guy_state_type guy_state;
+extern game_state_type game_state;
+
 extern bool isRun;
 extern bool isJump;
 extern bool rejump_flag;
