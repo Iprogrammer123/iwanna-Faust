@@ -112,39 +112,53 @@ bool CheckWallOver(void)
 //the triwidth and trilength is the size of the triangle
 //the x and the y is the guy's position
 //the width and the length is the guy's size
-int trx1,try1;
-enum map_type{
-	tl,
-	tr,
-	tu,
-	td
-};
-bool CheckTheState(int x,int y)
+bool CheckTheLifeState(int x,int y)
 {
-        static bool state=FALSE;
-		state=CheckTheTriangle(x,y,trx1,try1,shape);
-		return state;
+        bool state=FALSE;
+	
+	state=CheckTheTriangle(x,y,trx1,try1,shape);
+	return state;
 }
 
-bool CheckTheTriangle(int x,int y,int trx1,int try1,enum map_type shape)
+bool CheckOnePointTheTriangle(int x,int y,int trx1,int try1,enum map_type shape)
 {
 	bool tristate=FALSE;
 	int nx=x-trx1,ny=y-try1;
 	switch(shape)
 	{
-	case tl:
+	case TL:
 		if(nx<=UNIT&&((2*ny+nx)>=UNIT)&&((2*ny-nx)<=UNIT))
 			tristate=TRUE;
-	case tr:
+	case TR:
 		if(nx>=0&&((2*ny+nx)<=2*UNIT)&&((2*ny-nx)>=0))
 			tristate=TRUE;
-	case tu:
+	case TU:
 		if(ny>=0&&((ny+2*nx)<=2*UNIT)&&((ny-2*nx)<=0))
 			tristate=TRUE;
-	case td:
+	case TD:
 		if(ny<=UNIT&&((ny+2*nx)>=UNIT)&&((ny-2*nx)>=(-UNIT)))
 			tristate=TRUE;
 	default:
 	}
 	return tristate;
+}
+bool CheckTheTriangle(int x,int y,int trx1,int trx2,enum map_type shape)
+{
+	bool state=FALSE;
+	int ALU[2]={x,y+guy_size};
+	int ARU[2]={x+guy_size,y+guy_size};
+	int ALD[2]={x,y};
+	int ARD[2]={x+guy_size,y};
+	int AngleDirection[4][2]={{ALU[0],ALU[1]},
+				  {ARU[0],ARU[1]},
+				  {ALD[0],ALD[1]},
+				  {ARD[0],ARD[1]}};
+	int i;
+	for(i=0;i<4;i++)
+	{
+		state=CheckOnePointTheTriangle(x,y,AngleDirection[i][0],ALU[i][1],shape);
+		if(state==TRUE)
+			break;
+	}
+	return state;
 }
