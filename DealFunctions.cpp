@@ -136,3 +136,26 @@ void DealFreeFall(void)
 
 	return;
 }
+
+void DealWin(void)
+{
+	Sleep(3000);
+	game_state = BEGIN;
+}
+
+void DealDie(void)
+{
+	static int count = 0;
+
+	count++;
+	if (count == 6)
+	{
+		count = 0;
+		die_loop++;
+	}
+	if (die_loop == 8)
+	{
+		die_loop = 0;
+		game_state = END;
+	}
+}

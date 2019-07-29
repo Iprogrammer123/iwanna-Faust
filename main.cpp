@@ -2,13 +2,13 @@
 
 int main(void)
 {
-	Initialize();
+	InitializeGame();
 	while (1)
 	{
 		Refresh();
 		UpdateWithoutInput();
 		UpdateWithInput();
-		Sleep(30);
+		Sleep(F);
 	}
 
 	return 0;
