@@ -93,7 +93,6 @@ static void UpdatePlay(void)
 			isJump = TRUE;
 			ableJump--;
 			rejump_flag = TRUE;
-			guy_state = WIN;
 		} 
 	}
 	

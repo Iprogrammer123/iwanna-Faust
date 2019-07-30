@@ -146,6 +146,7 @@ bool CheckOnePointTheTriangle(int x,int y,int* Position,int shape,int n)
 	}
 	return tristate;
 }
+
 bool CheckTheTriangle(int x,int y,int* Position,int shape,int n)
 {
 	bool state=FALSE;
@@ -166,6 +167,7 @@ bool CheckTheTriangle(int x,int y,int* Position,int shape,int n)
 	}
 	return state;
 }
+
 int* UnitChange(int x,int y)
 {
 	static int UPosition[2];
@@ -175,10 +177,10 @@ int* UnitChange(int x,int y)
 	return UPosition;
 }
 
-bool CheckTheLifeState(int x,int y)
+bool CheckTheLifeState(void)
 {
-        bool state=FALSE;
-	int* Position=UnitChange(x,y);
+    bool state=FALSE;
+	int* Position=UnitChange(guy_x, guy_y);
 	int shape[4]={map_array[Position[0]][Position[1]],
 				map_array[Position[0]+1][Position[1]],
 				map_array[Position[0]][Position[1]+1],
@@ -192,11 +194,34 @@ bool CheckTheLifeState(int x,int y)
 			case WALL:break;
 			case GOAL:break;
 			case SAVE:break;
-			default:state=CheckTheTriangle(x,y,Position,shape[i],i);
+			default:state=CheckTheTriangle(guy_x,guy_y,Position,shape[i],i);
 		}
-		if(state==TRUE)
-			break;
+		if(state)
+		{
+			return state;
+		}
 	}
-	return state;
+
+    return state;
 }
 
+void CheckGuyState(void)
+{
+	if(WinCheck())
+		guy_state=WIN;
+	else if(CheckTheLifeState())
+		guy_state=DIE;
+	else
+		guy_state=LIVE;
+
+}
+
+bool WinCheck(void)
+{
+	int* Position=UnitChange(guy_x+GUY_SIZE/2, guy_y+GUY_SIZE/2); 
+	int shape=map_array[Position[0]][Position[1]];
+	if(shape==GOAL)
+		return TRUE;
+	else
+	return FALSE;
+}
