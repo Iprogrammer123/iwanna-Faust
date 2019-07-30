@@ -150,10 +150,10 @@ bool CheckOnePointTheTriangle(int x,int y,int* Position,int shape,int n)
 bool CheckTheTriangle(int x,int y,int* Position,int shape,int n)
 {
 	bool state=FALSE;
-	int ALU[2]={x,y+GUY_SIZE};
-	int ARU[2]={x+GUY_SIZE,y+GUY_SIZE};
-	int ALD[2]={x,y};
-	int ARD[2]={x+GUY_SIZE,y};
+	int ALU[2]={x,y};
+	int ARU[2]={x+GUY_SIZE,y};
+	int ALD[2]={x,y+GUY_SIZE};
+	int ARD[2]={x+GUY_SIZE,y+GUY_SIZE};
 	int AngleDirection[4][2]={{ALU[0],ALU[1]},
 				  {ARU[0],ARU[1]},
 				  {ALD[0],ALD[1]},
