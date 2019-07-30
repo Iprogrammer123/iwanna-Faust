@@ -137,7 +137,7 @@ bool CheckTheLifeState(int x,int y)
 	return state;
 }
 
-bool CheckOnePointTheTriangle(int x,int y,int* Position,enum map_type shape,int n)
+bool CheckOnePointTheTriangle(int x,int y,int* Position,map_type shape,int n)
 {
 	bool tristate=FALSE;
 	int trx,try;
@@ -173,7 +173,7 @@ bool CheckOnePointTheTriangle(int x,int y,int* Position,enum map_type shape,int 
 	}
 	return tristate;
 }
-bool CheckTheTriangle(int x,int y,int* Position,enum map_type shape,int n)
+bool CheckTheTriangle(int x,int y,int* Position,map_type shape,int n)
 {
 	bool state=FALSE;
 	int ALU[2]={x,y+guy_size};
