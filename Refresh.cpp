@@ -1,15 +1,66 @@
 #include "motion_control.h"
 
+static void DrawBeginMenu(void);
 static void DrawBackground(void);
 static void DrawMap(void);
 static void DrawGuy(void);
+static void DrawWinGuy(void);
+static void DrawDieGuy(void);
+static void DrawLiveGuy(void);
+static void DrawEndMenu(void);
 
 void Refresh(void)
 {
-	DrawBackground();
-	DrawMap();
-	DrawGuy();
+	switch (game_state)
+	{
+	case BEGIN:
+		{
+			DrawBeginMenu();
+			break;
+		}
+	case PLAY:
+		{
+			DrawBackground();
+			DrawMap();
+			DrawGuy();
+			break;
+		}
+	case END:
+		{
+			DrawEndMenu();
+			break;
+		}
+	}
 	FlushBatchDraw();
+
+	return;
+}
+
+static void DrawBeginMenu(void)
+{
+	putimage(0, 0, &begin_img);
+
+	if (mouse_on_start)
+	{
+		putimage(BUTTON1_X, BUTTON1_Y, BUTTON_WIDTH, BUTTON_HEIGHT, &start_bk_img, 0, 0, NOTSRCERASE);
+		putimage(BUTTON1_X, BUTTON1_Y, BUTTON_WIDTH, BUTTON_HEIGHT, &start_img, 0, 0, SRCINVERT);
+	}
+	else
+	{
+		putimage(BUTTON1_X, BUTTON1_Y, BUTTON_WIDTH, BUTTON_HEIGHT, &ostart_bk_img, 0, 0, NOTSRCERASE);
+		putimage(BUTTON1_X, BUTTON1_Y, BUTTON_WIDTH, BUTTON_HEIGHT, &ostart_img, 0, 0, SRCINVERT);
+	}
+
+	if (mouse_on_exit)
+	{
+		putimage(BUTTON2_X, BUTTON2_Y, BUTTON_WIDTH, BUTTON_HEIGHT, &exit_bk_img, 0, 0, NOTSRCERASE);
+		putimage(BUTTON2_X, BUTTON2_Y, BUTTON_WIDTH, BUTTON_HEIGHT, &exit_img, 0, 0, SRCINVERT);
+	}
+	else
+	{
+		putimage(BUTTON2_X, BUTTON2_Y, BUTTON_WIDTH, BUTTON_HEIGHT, &oexit_bk_img, 0, 0, NOTSRCERASE);
+		putimage(BUTTON2_X, BUTTON2_Y, BUTTON_WIDTH, BUTTON_HEIGHT, &oexit_img, 0, 0, SRCINVERT);
+	}
 
 	return;
 }
@@ -80,6 +131,72 @@ static void DrawMap(void)
 
 static void DrawGuy(void)
 {
+	switch (guy_state)
+	{
+	case WIN:
+		{
+			DrawWinGuy();
+			break;
+		}
+	case DIE:
+		{
+			DrawDieGuy();
+			break;
+		}
+	case LIVE:
+		{
+			DrawLiveGuy();
+			break;
+		}
+	}
+
+	return;
+}
+
+static void DrawWinGuy(void)
+{
+	switch (guy_direction)
+	{
+	case LEFT:
+		{
+			putimage(guy_x , guy_y - 20, 30, 40, &win_left_bk_img, 0, 0, NOTSRCERASE);
+			putimage(guy_x, guy_y - 20, 30, 40, &win_left_img, 0, 0, SRCINVERT);
+			break;
+		}
+	case RIGHT:
+		{
+			putimage(guy_x , guy_y - 20, 30, 40, &win_right_bk_img, 0, 0, NOTSRCERASE);
+			putimage(guy_x, guy_y - 20, 30, 40, &win_right_img, 0, 0, SRCINVERT);
+			break;
+		}
+	}
+
+	return;
+}
+
+static void DrawDieGuy(void)
+{
+	switch (guy_direction)
+	{
+	case LEFT:
+		{
+			putimage(guy_x, guy_y - 10, UNIT, UNIT, &die_left_bk_img, die_loop*UNIT, 0, NOTSRCERASE);
+			putimage(guy_x, guy_y - 10, UNIT, UNIT, &die_left_img, die_loop*UNIT, 0, SRCINVERT);
+			break;
+		}
+	case RIGHT:
+		{
+			putimage(guy_x, guy_y - 10, UNIT, UNIT, &die_right_bk_img, die_loop*UNIT, 0, NOTSRCERASE);
+			putimage(guy_x, guy_y - 10, UNIT, UNIT, &die_right_img, die_loop*UNIT, 0, SRCINVERT);
+			break;
+		}
+	}
+
+	return;
+}
+
+static void DrawLiveGuy(void)
+{
 	if (isJump)
 	{
 		switch (guy_direction)
@@ -133,6 +250,35 @@ static void DrawGuy(void)
 				break;
 			}
 		}
+	}
+
+	return;
+}
+
+static void DrawEndMenu(void)
+{
+	putimage(0, 100, &end_img);
+
+	if (mouse_on_retry)
+	{
+		putimage(BUTTON1_X, BUTTON1_Y, BUTTON_WIDTH, BUTTON_HEIGHT, &retry_bk_img, 0, 0, NOTSRCERASE);
+		putimage(BUTTON1_X, BUTTON1_Y, BUTTON_WIDTH, BUTTON_HEIGHT, &retry_img, 0, 0, SRCINVERT);
+	}
+	else
+	{
+		putimage(BUTTON1_X, BUTTON1_Y, BUTTON_WIDTH, BUTTON_HEIGHT, &oretry_bk_img, 0, 0, NOTSRCERASE);
+		putimage(BUTTON1_X, BUTTON1_Y, BUTTON_WIDTH, BUTTON_HEIGHT, &oretry_img, 0, 0, SRCINVERT);
+	}
+
+	if (mouse_on_exit)
+	{
+		putimage(BUTTON2_X, BUTTON2_Y, BUTTON_WIDTH, BUTTON_HEIGHT, &exit_bk_img, 0, 0, NOTSRCERASE);
+		putimage(BUTTON2_X, BUTTON2_Y, BUTTON_WIDTH, BUTTON_HEIGHT, &exit_img, 0, 0, SRCINVERT);
+	}
+	else
+	{
+		putimage(BUTTON2_X, BUTTON2_Y, BUTTON_WIDTH, BUTTON_HEIGHT, &oexit_bk_img, 0, 0, NOTSRCERASE);
+		putimage(BUTTON2_X, BUTTON2_Y, BUTTON_WIDTH, BUTTON_HEIGHT, &oexit_img, 0, 0, SRCINVERT);
 	}
 
 	return;
