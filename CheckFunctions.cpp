@@ -107,3 +107,102 @@ bool CheckWallOver(void)
 		return TRUE;
 	}
 }
+
+//trx1 and try1 is the position of triangle,tr1s is the shape of the triangle
+//the triwidth and trilength is the size of the triangle
+//the x and the y is the guy's position
+//the width and the length is the guy's size
+bool CheckOnePointTheTriangle(int x,int y,int* Position,int shape,int n)
+{
+	bool tristate=FALSE;
+	int tr_x,tr_y;
+	
+	switch(n)
+	{
+		case 0:tr_x=Position[0]*UNIT;tr_y=Position[1]*UNIT;break;
+		case 1:tr_x=(Position[0]+1)*UNIT;tr_y=Position[1]*UNIT;break;
+		case 2:tr_x=Position[0]*UNIT;tr_y=(Position[1]+1)*UNIT;break;
+		case 3:tr_x=(Position[0]+1)*UNIT;tr_y=(Position[1]+1)*UNIT;break;
+	}
+	int nx=x-tr_x,ny=y-tr_y;
+	switch(shape)
+	{
+	case TL:
+		if(nx<=UNIT&&((2*ny+nx)>=UNIT)&&((2*ny-nx)<=UNIT))
+			tristate=TRUE;
+			break;
+	case TR:
+		if(nx>=0&&((2*ny+nx)<=2*UNIT)&&((2*ny-nx)>=0))
+			tristate=TRUE;
+			break;
+	case TD:
+		if(ny>=0&&((ny+2*nx)<=2*UNIT)&&((ny-2*nx)<=0))
+			tristate=TRUE;
+			break;
+	case TU:
+		if(ny<=UNIT&&((ny+2*nx)>=UNIT)&&((ny-2*nx)>=(-UNIT)))
+			tristate=TRUE;
+			break;
+	}
+	return tristate;
+}
+
+bool CheckTheTriangle(int x,int y,int* Position,int shape,int n)
+{
+	bool state=FALSE;
+	int ALU[2]={x,y+GUY_SIZE};
+	int ARU[2]={x+GUY_SIZE,y+GUY_SIZE};
+	int ALD[2]={x,y};
+	int ARD[2]={x+GUY_SIZE,y};
+	int AngleDirection[4][2]={{ALU[0],ALU[1]},
+				  {ARU[0],ARU[1]},
+				  {ALD[0],ALD[1]},
+				  {ARD[0],ARD[1]}};
+	int i;
+	for(i=0;i<4;i++)
+	{
+		state=CheckOnePointTheTriangle(AngleDirection[n][0],AngleDirection[n][1],Position,shape,n);
+		if(state==TRUE)
+			break;
+	}
+	return state;
+}
+
+int* UnitChange(int x,int y)
+{
+	static int UPosition[2];
+	int mx=x/UNIT,my=y/UNIT;
+	UPosition[0]=mx;
+	UPosition[1]=my;
+	return UPosition;
+}
+
+void CheckTheLifeState(void)
+{
+    bool state=FALSE;
+	int* Position=UnitChange(guy_x, guy_y);
+	int shape[4]={map_array[Position[0]][Position[1]],
+				map_array[Position[0]+1][Position[1]],
+				map_array[Position[0]][Position[1]+1],
+				map_array[Position[0]+1][Position[1]+1]};
+	int i;
+	for(i=0;i<4;i++)
+	{
+		switch(shape[i])
+		{
+			case BLANK:break;
+			case WALL:break;
+			case GOAL:break;
+			case SAVE:break;
+			default:state=CheckTheTriangle(guy_x,guy_y,Position,shape[i],i);
+		}
+		if(state)
+		{
+			guy_state = DIE;
+			return;
+		}
+	}
+
+	return;
+}
+

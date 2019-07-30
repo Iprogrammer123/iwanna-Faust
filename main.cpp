@@ -8,7 +8,7 @@ int main(void)
 		Refresh();
 		UpdateWithoutInput();
 		UpdateWithInput();
-		Sleep(F);
+		Sleep(game_state==PLAY? 27: 0);
 	}
 
 	return 0;

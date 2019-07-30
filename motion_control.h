@@ -4,8 +4,6 @@
 #include <graphics.h>
 #include <conio.h>
 
-#define FRAME_FREQUENCY 5
-#define PLAY_FRAME_FREQUENCY 27
 #define UNIT 30		//30 pixels for each unit
 #define WIDTH 30		//30 units wide
 #define HEIGHT 20		//20 units high
@@ -45,6 +43,7 @@ void DealDie(void);
 bool CheckWallUnder(void);
 bool CheckWallSide(void);
 bool CheckWallOver(void);
+void CheckTheLifeState(void);
 
 typedef enum
 {
@@ -66,7 +65,6 @@ typedef enum
 	BEGIN, PLAY, END
 } game_state_type;
 
-extern int F;
 extern guy_state_type guy_state;
 extern game_state_type game_state;
 extern direction_type guy_direction;

@@ -80,7 +80,6 @@ map_type map_array[WIDTH][HEIGHT];
 
 void InitializeGame(void)
 {
-	F = FRAME_FREQUENCY;
 	LoadImage();
 	LoadMap();
 	initgraph(WIDTH*UNIT, HEIGHT*UNIT);

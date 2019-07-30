@@ -30,13 +30,12 @@ void UpdateWithoutInput(void)
 
 static void UpdateBegin(void)
 {
-	F = FRAME_FREQUENCY;
-	return;
+	return;		//nothing to do
 }
 
 static void UpdatePlay(void)
 {
-	F = PLAY_FRAME_FREQUENCY;
+	CheckTheLifeState();
 	switch (guy_state)
 	{
 	case WIN:
@@ -81,6 +80,5 @@ static void UpdatePlay(void)
 
 static void UpdateEnd(void)
 {
-	F = FRAME_FREQUENCY;
-	return;
+	return;		//nothing to do
 }
