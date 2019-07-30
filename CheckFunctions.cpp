@@ -1,5 +1,11 @@
 #include "motion_control.h"
 
+static bool CheckLive(void);
+static bool CheckWin(void);
+static bool CheckOnePointTheTriangle(int x,int y,int* Position,int shape,int n);
+static bool CheckTheTriangle(int x,int y,int* Position,int shape,int n);
+static int* UnitChange(int x,int y);
+
 /*
  * Functions to check walls
  * Change the pixel coordinate into the unit coordinate 
@@ -7,6 +13,16 @@
  * If there is a wall, return TRUE, if not, return FALSE
  * By the way, it is necessary to add so many bound conditions when checking
  */
+
+void CheckGuyState(void)
+{
+	if(CheckWin())
+		guy_state=WIN;
+	else if(CheckLive())
+		guy_state=DIE;
+	else
+		guy_state=LIVE;
+}
 
 bool CheckWallUnder(void)
 {
@@ -112,7 +128,7 @@ bool CheckWallOver(void)
 //the triwidth and trilength is the size of the triangle
 //the x and the y is the guy's position
 //the width and the length is the guy's size
-bool CheckOnePointTheTriangle(int x,int y,int* Position,int shape,int n)
+static bool CheckOnePointTheTriangle(int x,int y,int* Position,int shape,int n)
 {
 	bool tristate=FALSE;
 	int tr_x,tr_y;
@@ -147,13 +163,13 @@ bool CheckOnePointTheTriangle(int x,int y,int* Position,int shape,int n)
 	return tristate;
 }
 
-bool CheckTheTriangle(int x,int y,int* Position,int shape,int n)
+static bool CheckTheTriangle(int x,int y,int* Position,int shape,int n)
 {
 	bool state=FALSE;
-	int ALU[2]={x,y+GUY_SIZE};
-	int ARU[2]={x+GUY_SIZE,y+GUY_SIZE};
-	int ALD[2]={x,y};
-	int ARD[2]={x+GUY_SIZE,y};
+	int ALU[2]={x,y};
+	int ARU[2]={x+GUY_SIZE,y};
+	int ALD[2]={x,y+GUY_SIZE};
+	int ARD[2]={x+GUY_SIZE,y+GUY_SIZE};
 	int AngleDirection[4][2]={{ALU[0],ALU[1]},
 				  {ARU[0],ARU[1]},
 				  {ALD[0],ALD[1]},
@@ -168,7 +184,7 @@ bool CheckTheTriangle(int x,int y,int* Position,int shape,int n)
 	return state;
 }
 
-int* UnitChange(int x,int y)
+static int* UnitChange(int x,int y)
 {
 	static int UPosition[2];
 	int mx=x/UNIT,my=y/UNIT;
@@ -177,7 +193,7 @@ int* UnitChange(int x,int y)
 	return UPosition;
 }
 
-void CheckTheLifeState(void)
+static bool CheckLive(void)
 {
     bool state=FALSE;
 	int* Position=UnitChange(guy_x, guy_y);
@@ -198,11 +214,19 @@ void CheckTheLifeState(void)
 		}
 		if(state)
 		{
-			guy_state = DIE;
-			return;
+			return state;
 		}
 	}
 
-	return;
+    return state;
 }
 
+static bool CheckWin(void)
+{
+	int* Position=UnitChange(guy_x+GUY_SIZE/2, guy_y+GUY_SIZE/2); 
+	int shape=map_array[Position[0]][Position[1]];
+	if(shape==GOAL)
+		return TRUE;
+	else
+	return FALSE;
+}

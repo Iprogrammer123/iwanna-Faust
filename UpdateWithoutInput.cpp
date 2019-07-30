@@ -35,7 +35,6 @@ static void UpdateBegin(void)
 
 static void UpdatePlay(void)
 {
-	CheckTheLifeState();
 	switch (guy_state)
 	{
 	case WIN:
@@ -73,7 +72,10 @@ static void UpdatePlay(void)
 			}
 			break;
 		}
+
 	}
+
+	CheckGuyState();
 
 	return;
 }

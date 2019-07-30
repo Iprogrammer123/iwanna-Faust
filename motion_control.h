@@ -40,10 +40,10 @@ void DealJump(void);
 void DealFreeFall(void);
 void DealWin(void);
 void DealDie(void);
+void CheckGuyState(void);
 bool CheckWallUnder(void);
 bool CheckWallSide(void);
 bool CheckWallOver(void);
-void CheckTheLifeState(void);
 
 typedef enum
 {

@@ -115,6 +115,8 @@ void DealJump()
 	
 		return;
 	}
+
+	return;
 }
 
 void DealFreeFall(void)
@@ -141,6 +143,8 @@ void DealWin(void)
 {
 	Sleep(3000);
 	game_state = BEGIN;
+
+	return;
 }
 
 void DealDie(void)
@@ -158,4 +162,6 @@ void DealDie(void)
 		die_loop = 0;
 		game_state = END;
 	}
+
+	return;
 }

@@ -3,7 +3,6 @@
 static void LoadImage(void);
 static void LoadMap(void);
 
-int F;
 guy_state_type guy_state;
 game_state_type game_state;
 direction_type guy_direction;
